@@ -1,5 +1,17 @@
 const CACHE = "crud-v2-login" // <- cambiá v1 por v2
-const FILES = ["./", "./index.html", "./login.html", "./style.css", "./main.js", "./storage.js", "./validaciones.js", "./auth.js", "./manifest.json"]
+const CACHE = "crud-v6-login"
+const FILES = [
+  "/",
+  "/index.html",
+  "/login.html",
+  "/register.html",
+  "/style.css",
+  "/main.js",
+  "/auth.js",
+  "/storage.js",
+  "/validaciones.js",
+  "/manifest.json"
+]
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)))
 })
