@@ -1,3 +1,16 @@
+// Protección de sesión
+if (!localStorage.getItem("auth_session")) {
+  location.href = "login.html"
+}
+const sesionUser = localStorage.getItem("auth_session")
+document.addEventListener("DOMContentLoaded", () => {
+  const span = document.getElementById("userHola")
+  if (span) span.textContent = `Hola, ${sesionUser} 👋`
+  document.getElementById("btnLogout")?.addEventListener("click", () => {
+    localStorage.removeItem("auth_session")
+    location.href = "login.html"
+  })
+})
 if(!localStorage.getItem("auth_session")) location.href="login.html"
 import { guardar, cargar } from "./storage.js"
 import { validar } from "./validaciones.js"
