@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prueba TS</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRUD Usuarios</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Mi prueba TS</h1>
-  <button id="btnTema" style="position:absolute; top:15px; right:15px; border:none; background:white; padding:8px 12px; border-radius:20px; cursor:pointer;">🌙</button>
-  <input type="text" id="inputBuscar" placeholder="Buscar por nombre o email...">
-  <select id="selectOrden">
-    <option value="id">Por ID</option>
-    <option value="nombre">Nombre A-Z</option>
-    <option value="nombre_desc">Nombre Z-A</option>
-    <option value="edad">Edad menor a mayor</option>
-    <option value="edad_desc">Edad mayor a menor</option>
-  </select>
-  <p id="contador"></p>
-  <input id="nombre" placeholder="Nombre" />
-  <input id="edad" type="number" placeholder="Edad" />
-  <input id="email" placeholder="Email" />
-  <button id="btnAgregar">Agregar</button>
-   <button id="btnExportar">Exportar JSON</button>
-  <label for="inputImportar" id="btnImportar" style="border:1px solid #ccc; padding:5px 10px; cursor:pointer; background:#eee; border-radius:4px;">Importar JSON</label>
-  <input type="file" id="inputImportar" accept=".json,.txt" style="display:none;" />
-  <hr>
-  <ul id="lista"></ul>
-  <script type="module" src="main.js"></script>
+<header class="topbar">
+<h1>CRUD Usuarios</h1>
+<button id="btnTema" aria-label="Cambiar tema">🌙</button>
+</header>
+
+<main class="container">
+<input id="inputBuscar" type="search" placeholder="Buscar por nombre o email..." autocomplete="off" />
+<select id="selectOrden">
+<option value="id">Por ID</option>
+<option value="nombre">Nombre A-Z</option>
+<option value="nombre_desc">Nombre Z-A</option>
+<option value="edad">Edad menor</option>
+<option value="edad_desc">Edad mayor</option>
+</select>
+
+<p id="contador" class="contador"></p>
+
+<form id="formUsuario" class="form">
+<input id="nombre" placeholder="Nombre" required />
+<input id="edad" type="number" placeholder="Edad" min="1" max="120" required />
+<input id="email" type="email" placeholder="Email" required />
+<button id="btnAgregar" type="submit">Agregar</button>
+</form>
+
+<div class="actions">
+<button id="btnExportar">Exportar JSON</button>
+<label for="inputImportar" class="import-label">Importar JSON</label>
+<input id="inputImportar" type="file" accept=".json" hidden />
+</div>
+
+<ul id="lista" class="lista"></ul>
+</main>
+
+<script type="module" src="main.js"></script>
 </body>
 </html>
