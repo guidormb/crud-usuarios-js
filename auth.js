@@ -6,7 +6,7 @@ function saveUsers(u){ localStorage.setItem(KEY_USERS, JSON.stringify(u)) }
 
 // Si ya está logueado y entra al login, mandalo al CRUD
 if(localStorage.getItem(KEY_SESSION) && location.pathname.includes("login")){
-  location.href = "index.html"
+  location.replace("index.html")
 }
 
 document.getElementById("formLogin")?.addEventListener("submit", e => {
@@ -17,7 +17,7 @@ document.getElementById("formLogin")?.addEventListener("submit", e => {
   const found = users.find(u => u.user === user && u.pass === btoa(pass))
   if(found){
     localStorage.setItem(KEY_SESSION, user)
-    location.href = "index.html"
+    location.replace("index.html")
   } else {
     document.getElementById("msg").textContent = "❌ Usuario o contraseña incorrectos"
   }

@@ -4,6 +4,11 @@ import { validar } from "./validaciones.js"
 // Protección de sesión - TIENE que ir DESPUÉS de los imports
 if (!localStorage.getItem("auth_session")) {
   location.href = "login.html"
+  window.addEventListener("pageshow", (e) => {
+  if (e.persisted || !localStorage.getItem("auth_session")) {
+    location.replace("login.html")
+  }
+})
 }
 const sesionUser = localStorage.getItem("auth_session")
 
@@ -34,11 +39,11 @@ if (btnTema) {
 // --- SESIÓN: Hola y Logout ---
 document.addEventListener("DOMContentLoaded", () => {
   const span = document.getElementById("userHola")
-  if (span) span.textContent = `Hola, ${sesionUser} 👋`
+  if (span) span.textContent = `Hola, ${sesionUser} 
   document.getElementById("btnLogout")?.addEventListener("click", () => {
-    localStorage.removeItem("auth_session")
-    location.href = "login.html"
-  })
+  localStorage.removeItem("auth_session")
+  location.replace("login.html")
+})
 })
 
 // --- STORAGE ---
