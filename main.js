@@ -1,19 +1,11 @@
-// Protección de sesión
+import { guardar, cargar } from "./storage.js"
+import { validar } from "./validaciones.js"
+
+// Protección de sesión - TIENE que ir DESPUÉS de los imports
 if (!localStorage.getItem("auth_session")) {
   location.href = "login.html"
 }
 const sesionUser = localStorage.getItem("auth_session")
-document.addEventListener("DOMContentLoaded", () => {
-  const span = document.getElementById("userHola")
-  if (span) span.textContent = `Hola, ${sesionUser} 👋`
-  document.getElementById("btnLogout")?.addEventListener("click", () => {
-    localStorage.removeItem("auth_session")
-    location.href = "login.html"
-  })
-})
-if(!localStorage.getItem("auth_session")) location.href="login.html"
-import { guardar, cargar } from "./storage.js"
-import { validar } from "./validaciones.js"
 
 let usuarios = [{ id: 1, nombre: "Guido", edad: 29, email: "guido@mail.com" }]
 let proximoId = 2
@@ -39,12 +31,21 @@ if (btnTema) {
   })
 }
 
+// --- SESIÓN: Hola y Logout ---
+document.addEventListener("DOMContentLoaded", () => {
+  const span = document.getElementById("userHola")
+  if (span) span.textContent = `Hola, ${sesionUser} 👋`
+  document.getElementById("btnLogout")?.addEventListener("click", () => {
+    localStorage.removeItem("auth_session")
+    location.href = "login.html"
+  })
+})
+
 // --- STORAGE ---
 let datos = cargar()
 if (datos.usuarios) usuarios = datos.usuarios
 if (datos.proximoId) proximoId = datos.proximoId
 
-// --- OPTIMIZACIÓN: Debounce ---
 function debounce(fn, ms = 250) {
   let t
   return (...args) => {
@@ -53,22 +54,18 @@ function debounce(fn, ms = 250) {
   }
 }
 
-// --- RENDER OPTIMIZADO con Fragment ---
 function mostrarUsuarios(listaAMostrar = usuarios) {
   lista.innerHTML = ""
-  
   let promedio = 0
   if (usuarios.length > 0) {
     const suma = usuarios.reduce((acc, u) => acc + u.edad, 0)
     promedio = (suma / usuarios.length).toFixed(1)
   }
-  
   if (listaAMostrar.length === 0) {
     contador.textContent = usuarios.length === 0 ? "No hay usuarios" : "Sin resultados"
   } else {
     contador.textContent = `Mostrando ${listaAMostrar.length} de ${usuarios.length} | Prom: ${promedio} años`
   }
-
   const frag = document.createDocumentFragment()
   listaAMostrar.forEach(u => {
     const li = document.createElement("li")
@@ -86,7 +83,6 @@ function mostrarUsuarios(listaAMostrar = usuarios) {
 function obtenerListaProcesada() {
   const texto = inputBuscar.value.toLowerCase().trim()
   let result = texto === "" ? usuarios : usuarios.filter(u => u.nombre.toLowerCase().includes(texto) || u.email.toLowerCase().includes(texto))
-  
   const orden = selectOrden.value
   return [...result].sort((a, b) => {
     if (orden === "nombre") return a.nombre.localeCompare(b.nombre)
@@ -103,7 +99,6 @@ function agregarUsuario(nombre, edad, email) {
   const error = validar(nombre, edad, email)
   if (error) return error
   if (usuarios.find(u => u.email === email && u.id !== idEnEdicion)) return `Error: ${email} ya existe`
-  
   if (idEnEdicion !== null) {
     const u = usuarios.find(x => x.id === idEnEdicion)
     u.nombre = nombre; u.edad = edad; u.email = email
@@ -137,7 +132,6 @@ function iniciarEdicion(id) {
 window.eliminarUsuario = eliminarUsuario
 window.iniciarEdicion = iniciarEdicion
 
-// --- EVENTOS OPTIMIZADOS ---
 formUsuario.addEventListener("submit", (e) => {
   e.preventDefault()
   const mensaje = agregarUsuario(
