@@ -1,3 +1,4 @@
+if(!localStorage.getItem("auth_session")) location.href="login.html"
 import { guardar, cargar } from "./storage.js"
 import { validar } from "./validaciones.js"
 

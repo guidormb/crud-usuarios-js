@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - CRUD</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container">
+<h1>Ingresar</h1>
+<form id="formLogin" class="form">
+<input id="loginUser" placeholder="Usuario" required>
+<input id="loginPass" type="password" placeholder="Contraseña" required>
+<button type="submit">Entrar</button>
+</form>
+<p>No tenés cuenta? <a href="#" id="linkRegistro">Registrate</a></p>
+
+<form id="formRegistro" class="form" style="display:none">
+<h2>Registro</h2>
+<input id="regUser" placeholder="Nuevo usuario" required>
+<input id="regPass" type="password" placeholder="Nueva contraseña" required>
+<button type="submit">Crear cuenta</button>
+<button type="button" id="btnVolver">Volver</button>
+</form>
+<p id="msg"></p>
+</main>
+<script type="module" src="auth.js"></script>
+</body>
+</html>
