@@ -1,15 +1,25 @@
 import { guardar, cargar } from "./storage.js"
 import { validar } from "./validaciones.js"
 
-// Protección de sesión - TIENE que ir DESPUÉS de los imports
-if (!localStorage.getItem("auth_session")) {
-  location.href = "login.html"
-  window.addEventListener("pageshow", (e) => {
-  if (e.persisted || !localStorage.getItem("auth_session")) {
+function checkAuth() {
+  if (!localStorage.getItem("auth_session")) {
+    location.replace("login.html")
+    return false
+  }
+  return true
+}
+checkAuth()
+
+window.addEventListener("pageshow", () => {
+  if (!localStorage.getItem("auth_session")) {
     location.replace("login.html")
   }
 })
-}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") checkAuth()
+})
+
 const sesionUser = localStorage.getItem("auth_session")
 
 let usuarios = [{ id: 1, nombre: "Guido", edad: 29, email: "guido@mail.com" }]
@@ -23,7 +33,6 @@ const btnTema = document.getElementById("btnTema")
 const lista = document.getElementById("lista")
 const formUsuario = document.getElementById("formUsuario")
 
-// --- TEMA ---
 let tema = localStorage.getItem("tema") || "light"
 document.documentElement.setAttribute("data-theme", tema)
 if (btnTema) btnTema.textContent = tema === "dark" ? "☀️" : "🌙"
@@ -36,17 +45,15 @@ if (btnTema) {
   })
 }
 
-// --- SESIÓN: Hola y Logout ---
 document.addEventListener("DOMContentLoaded", () => {
   const span = document.getElementById("userHola")
-  if (span) span.textContent = `Hola, ${sesionUser} 
+  if (span) span.textContent = `Hola, ${sesionUser} 👋`
   document.getElementById("btnLogout")?.addEventListener("click", () => {
-  localStorage.removeItem("auth_session")
-  location.replace("login.html")
-})
+    localStorage.removeItem("auth_session")
+    location.replace("login.html")
+  })
 })
 
-// --- STORAGE ---
 let datos = cargar()
 if (datos.usuarios) usuarios = datos.usuarios
 if (datos.proximoId) proximoId = datos.proximoId
