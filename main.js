@@ -8,6 +8,21 @@ let idEnEdicion = null
 const inputBuscar = document.getElementById("inputBuscar")
 const contador = document.getElementById("contador")
 const selectOrden = document.getElementById("selectOrden")
+const btnTema = document.getElementById("btnTema")
+
+// --- MODO OSCURO ---
+let tema = localStorage.getItem("tema") || "light"
+document.documentElement.setAttribute("data-theme", tema)
+if (btnTema) btnTema.textContent = tema === "dark" ? "☀️" : "🌙"
+
+if (btnTema) {
+  btnTema.addEventListener("click", () => {
+    tema = tema === "dark" ? "light" : "dark"
+    document.documentElement.setAttribute("data-theme", tema)
+    localStorage.setItem("tema", tema)
+    btnTema.textContent = tema === "dark" ? "☀️" : "🌙"
+  })
+}
 
 let datos = cargar()
 if (datos.usuarios) usuarios = datos.usuarios
@@ -39,7 +54,6 @@ function mostrarUsuarios(listaAMostrar = usuarios) {
       </li>`
   })
 }
-
 
 function obtenerListaProcesada() {
   let texto = inputBuscar.value.toLowerCase().trim()
@@ -123,16 +137,12 @@ selectOrden.addEventListener("change", () => {
 
 document.getElementById("btnExportar").addEventListener("click", async () => {
   let datos = JSON.stringify(usuarios, null, 2)
-  console.log("Exportando:", datos)
-  
-  // Intento 1: Descarga que funciona en navegador normal
   try {
     let blob = new Blob([datos], { type: "application/json" })
     let url = URL.createObjectURL(blob)
     let a = document.createElement("a")
     a.href = url
     a.download = "usuarios.json"
-    a.target = "_blank"
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -140,11 +150,9 @@ document.getElementById("btnExportar").addEventListener("click", async () => {
   } catch (e) {
     console.log("Fallo descarga", e)
   }
-  
-  // Intento 2: Copiado al portapapeles que funciona en Spck
   try {
     await navigator.clipboard.writeText(datos)
-    alert("Listo! Si no descargó, ya está copiado al portapapeles. Pegalo en un .json")
+    alert("Listo! Si no descargó, ya está copiado al portapapeles.")
   } catch {
     prompt("Copia este JSON:", datos)
   }

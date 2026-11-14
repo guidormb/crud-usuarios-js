@@ -30,3 +30,9 @@ h1 { text-align: center; margin-bottom: 20px; }
 .acciones button { padding: 6px 12px; border-radius: 8px; border: none; cursor: pointer; }
 .acciones button:first-child { background: #e0e7ff; color: #4338ca; }
 .acciones button:last-child { background: #fee2e2; color: #b91c1c; margin-left: 6px; }
+/* MODO OSCURO */
+[data-theme="dark"] {
+  --bg: #0f172a; --card: #1e293b; --text: #f1f5f9;
+  --muted: #94a3b8; --border: #334155;
+}
+[data-theme="dark"] #btnTema { background: #1e293b; color: white; }
